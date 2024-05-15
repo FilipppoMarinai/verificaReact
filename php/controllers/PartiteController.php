@@ -9,7 +9,9 @@ class PartiteController
     $conn = new mysqli("my_mariadb_5b", "root", "ciccio", "indovina_numero");
     $id = substr(str_shuffle(str_repeat($x='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil(10/strlen($x)) )),1,10);
     $numero = rand(0, 100);
-    $raw_query = "INSERT INTO partita(id, numero, tentativi) VALUES('$id', $numero, 0)";
+    $body = json_decode($request->getBody()->getContents(), true); 
+    $nome = $body["nome"];
+    $raw_query = "INSERT INTO partita(id, nome, numero, tentativi) VALUES('$id', '$nome', $numero, 0)";
     $result = $conn->query($raw_query);
     $raw_query = "SELECT * FROM partita WHERE id ='$id'";
     $result = $conn->query($raw_query);
